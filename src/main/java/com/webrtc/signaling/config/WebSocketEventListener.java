@@ -1,11 +1,8 @@
 package com.webrtc.signaling.config;
 
-//import com.webrtc.signaling.dto.CommonResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.GenericMessage;
@@ -77,24 +74,6 @@ public class WebSocketEventListener {
                 globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId) -1);
             }
         }
-
-        //전역 함수에 roomCheckWaitingClient map 을 가져와 해당 룸이 있는지 확인 한다.
-//        if(globalVariables.getRoomCheckWaitingClient().containsKey(roomId)){
-//            Map<String , String> returnMap = new HashMap<>();
-//
-//            returnMap.put("camKey", globalVariables.getCheckCamKey().get(sessionId));
-//            returnMap.put("roomCount", String.valueOf(globalVariables.getCheckRoomIdCount().get(roomId)));
-//
-//            //해당 roomCheckWaitingClient 에서 DeferredResult 에 setResult를 보내어서 해당되는 /poll/leave/room/{roomId} api에 신호를 보낸다.
-//            globalVariables.getRoomCheckWaitingClient().get(roomId).setResult(
-//                    new ResponseEntity<>(CommonResp.builder()
-//                            .data(returnMap)
-//                            .status_code(HttpStatus.OK.value())
-//                            .result(CommonResp.ResultType.SUCCESS)
-//                            .build(),
-//                            HttpStatus.OK)
-//            );
-//        }
         
         log.info("\n웹소켓 끊김 : "+sessionId+"\n"
                 +"룸 ID : "+roomId + "\n"
@@ -103,7 +82,8 @@ public class WebSocketEventListener {
     }
 
     //SessionConnectedEvent 에서 NativeHeader 찾기 메서드
-    private Map<String, List<String>> getNativeHeaders(SessionConnectedEvent event){
+    @SuppressWarnings("unchecked")
+	private Map<String, List<String>> getNativeHeaders(SessionConnectedEvent event){
     	System.out.println("이벤트 객체1: " + event);
     	
         //messageHeaders 를 추출

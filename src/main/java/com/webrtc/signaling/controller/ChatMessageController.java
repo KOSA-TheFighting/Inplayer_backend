@@ -15,7 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequiredArgsConstructor
 public class ChatMessageController {
-//	private final RedisTemplate<String, Object> redisTemplate;
 	private final ChatMessageService chatMessageService;
 
 	@MessageMapping("/chat/{roomId}")
