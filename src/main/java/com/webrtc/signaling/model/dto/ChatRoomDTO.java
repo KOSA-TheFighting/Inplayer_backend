@@ -1,16 +1,16 @@
-package com.webrtc.signaling.dto;
+package com.webrtc.signaling.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.Default;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.HashMap;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Builder
 public class ChatRoomDTO {

@@ -1,4 +1,4 @@
-package com.webrtc.signaling.dto;
+package com.webrtc.signaling.model.dto;
 
 import lombok.Data;
 

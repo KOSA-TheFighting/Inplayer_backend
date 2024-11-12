@@ -6,7 +6,7 @@ let roomId;
 let otherKeyList = [];
 let localStream = undefined;
 let stompClient;
-const member_nickname = crypto.randomUUID(); //테스트용 임시 닉네임
+const member_nickname = "member" + (Math.floor(Math.random() * 123) + 1); //테스트용 임시 닉네임
 let isBroadcaster = false; // 방송자/시청자 구분을 위한 플래그
 
 const startCam = async () => {
@@ -466,23 +466,21 @@ function sendMessage() {
     const message = document.querySelector('#chatInput').value;
     if (message) {   
         const now = new Date();
-        const date = now.toLocaleDateString('ko-KR', { 
-            year: 'numeric', 
-            month: '2-digit', 
-            day: '2-digit' 
-        });
-        const time = now.toLocaleTimeString('ko-KR', { 
-            hour: '2-digit', 
-            minute: '2-digit',
-            hour12: false 
-        });
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+
+        const formattedTime = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
 
         const chatMessage = {
-            type: 'CHAT',
+            type: '1002',
             roomId: roomId,
             sender: member_nickname,
             message: message,
-            time: date + " " + time
+            time: formattedTime
         };
         
         stompClient.send('/app/chat/' + roomId, {}, JSON.stringify(chatMessage));
