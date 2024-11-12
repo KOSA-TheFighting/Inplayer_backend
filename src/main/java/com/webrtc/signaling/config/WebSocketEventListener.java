@@ -40,7 +40,7 @@ public class WebSocketEventListener {
         //전역 함수에서 checkRoomIdCount map 를 가져와, 해당 룸 Id에 대한 유저수가 있는지 확인
         if(globalVariables.getCheckRoomIdCount().containsKey(roomId)){
             //있다면 유저수를 +1 해준다.
-            globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId)+1);
+            globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId) +1);
         }
         else{
             //아니면 1로 추가해준다.
@@ -56,7 +56,7 @@ public class WebSocketEventListener {
         log.info("\n웹소켓 접속 : " + sessionId + "\n"
                 + "룸 ID : " + roomId + "\n"
                 + "룸 인원 : " + globalVariables.getCheckRoomIdCount().get(roomId));
-        System.out.println(globalVariables);
+        System.out.println("연결시 " + globalVariables);
     }
 
     @EventListener
@@ -74,7 +74,7 @@ public class WebSocketEventListener {
             }
             else{
                 //아니면 해당 roomId의 유저를 -1 해준다.
-                globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId) - 1);
+                globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId) -1);
             }
         }
 
@@ -99,6 +99,7 @@ public class WebSocketEventListener {
         log.info("\n웹소켓 끊김 : "+sessionId+"\n"
                 +"룸 ID : "+roomId + "\n"
                 +"룸 인원 : "+ globalVariables.getCheckRoomIdCount().get(roomId) );
+        System.out.println("해제시 " + globalVariables);
     }
 
     //SessionConnectedEvent 에서 NativeHeader 찾기 메서드
