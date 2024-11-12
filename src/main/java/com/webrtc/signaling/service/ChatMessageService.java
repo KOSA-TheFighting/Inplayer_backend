@@ -23,7 +23,7 @@ public class ChatMessageService {
 
     // Redis에 메시지 저장
     public void saveMessage(String roomId, ChatMessageDTO message) {
-        String redisKey = "chat:room:" + roomId;
+        String redisKey = "방번호: " + roomId;
         redisTemplate.opsForList().rightPush(redisKey, message);
         
         // Redis에 저장된 메시지 수 확인
@@ -56,7 +56,8 @@ public class ChatMessageService {
             redisTemplate.delete(redisKey);
         }
     }
-
+    
+    //DTO필드명을 VO필드명으로 변환해서 DB와 일치시키는 작업
     private ChatMessageVO convertChatMessageDTOtoVO(ChatMessageDTO chatMessageDTO) {
         return ChatMessageVO.builder()
             .member_id(chatMessageDTO.getSender())
