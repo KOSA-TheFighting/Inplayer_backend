@@ -1,4 +1,4 @@
-package com.webrtc.signaling.model.vo;
+package com.webrtc.member.model.vo;
 
 import lombok.Data;
 
