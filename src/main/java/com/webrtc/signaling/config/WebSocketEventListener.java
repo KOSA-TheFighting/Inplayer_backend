@@ -1,7 +1,8 @@
 package com.webrtc.signaling.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
@@ -14,10 +15,10 @@ import java.util.*;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class WebSocketEventListener {
 
-    @Autowired
-    private GlobalVariables globalVariables;
+    private final GlobalVariables globalVariables;
 
     @EventListener
     public void handleWebsocketConnectListener(SessionConnectedEvent event) {
@@ -84,7 +85,7 @@ public class WebSocketEventListener {
     //SessionConnectedEvent 에서 NativeHeader 찾기 메서드
     @SuppressWarnings("unchecked")
 	private Map<String, List<String>> getNativeHeaders(SessionConnectedEvent event){
-    	System.out.println("이벤트 객체1: " + event);
+    	System.out.println("이벤트 객체: " + event);
     	
         //messageHeaders 를 추출
         MessageHeaders headers = event.getMessage().getHeaders();
