@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.webrtc.page.PageRequestDTO;
 import com.webrtc.signaling.model.dto.StreamDTO;
+import com.webrtc.signaling.model.vo.ChatRoomVO;
 import com.webrtc.signaling.model.vo.StreamVO;
 
 @Mapper
@@ -14,4 +15,5 @@ public interface StreamRepository {
 	int getTotalCount(PageRequestDTO pageRequestDTO);
 	
 	int registerStream(StreamVO streamVO);
+	int registerChatRoom(ChatRoomVO chatRoomVO);
 }

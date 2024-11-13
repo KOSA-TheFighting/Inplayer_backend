@@ -22,4 +22,14 @@
 		)
 	</insert>
 	
+	<insert id="registerChatRoom" useGeneratedKeys="true" keyProperty="chatroom_id">
+		insert into chatroom (
+			 stream_id
+			,chatroom_status
+		) values (
+			 #{stream_id}
+			,#{chatroom_status}
+		)
+	</insert>
+	
 </mapper>
