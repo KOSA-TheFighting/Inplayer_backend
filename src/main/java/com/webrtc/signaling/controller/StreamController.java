@@ -26,13 +26,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 @RequestMapping("/api/stream")
 public class StreamController {
-    private final GlobalVariables globalVariables;
+	private final GlobalVariables globalVariables;
 	private final MapperUtil mapperUtil;
 	private final StreamService streamService;
 
 	@GetMapping("list")
 	public ResponseEntity<Map<String, Object>> getStreamList(PageRequestDTO pageRequestDTO) {
 		System.out.println("방송목록 요청 목록: " + pageRequestDTO);
+
 		PageResponseDTO<StreamDTO> pageResponseDTO = streamService.getList(pageRequestDTO);
 		System.out.println("방송목록 응답 목록: " + pageResponseDTO);
 
@@ -47,11 +48,11 @@ public class StreamController {
 	public ResponseEntity<Map<String, Object>> registerStream(StreamDTO streamDTO){
 		//방송 시작시 방송 정보를 map형태로 저장
 		globalVariables.getStreamInfo().put(streamDTO.getMember_id(), streamDTO);
-		
+
+		String chatroom_status = streamDTO.getChatroom_status();
+		streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class), chatroom_status);
+
 		Map<String, Object> response = new HashMap<>();
-
-		streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class));
-
 		response.put("message", "방송이 등록되었습니다.");
 		response.put("status", "success");
 		System.out.println("방송 등록 응답 목록: " + response);

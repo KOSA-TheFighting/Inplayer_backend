@@ -13,5 +13,7 @@ public class StreamDTO {
 	private String stream_start_time;
 	private String stream_status;
 	
-	private int    stream_view_count;
+	private int    stream_view_count;   //방송 조회수
+	private String chatroom_status;     //채팅방 상태
+	private int    stream_viewer_count; //방송 실시간 시청자수
 }
