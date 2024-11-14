@@ -34,6 +34,21 @@ public class StreamController {
 	public ResponseEntity<Map<String, Object>> getStreamList(PageRequestDTO pageRequestDTO) {
 		System.out.println("방송목록 요청 목록: " + pageRequestDTO);
 
+		//샘플데이터 삽입
+		for (int i = 1; i <= 123; i++) {
+			StreamDTO streamDTO = new StreamDTO();
+			streamDTO.setMember_id("member" + i);
+			streamDTO.setMember_nickname("member_nickname" + i);
+			streamDTO.setStream_id(i);
+			streamDTO.setStream_title("title" + i);
+			streamDTO.setStream_description("description" + i);
+			streamDTO.setStreamtag_num("2000");
+			streamDTO.setStream_realtime_viewer_count(i*10);
+			globalVariables.getStreamInfo().put("member" + i, streamDTO);
+			globalVariables.getCheckRoomIdCount().put(streamDTO.getMember_id(), streamDTO.getStream_realtime_viewer_count());
+		}
+		System.out.println("전체 방송 목록: " + globalVariables.getStreamInfo());
+		
 		PageResponseDTO<StreamDTO> pageResponseDTO = streamService.getList(pageRequestDTO);
 		System.out.println("방송목록 응답 목록: " + pageResponseDTO);
 
@@ -49,7 +64,7 @@ public class StreamController {
 		String chatroom_status = streamDTO.getChatroom_status();
 		int stream_id = streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class), chatroom_status);
 		streamDTO.setStream_id(stream_id);
-		
+
 		//방송 시작시 방송 정보를 map형태로 저장
 		globalVariables.getStreamInfo().put(streamDTO.getMember_id(), streamDTO);
 
