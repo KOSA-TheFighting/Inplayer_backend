@@ -46,11 +46,12 @@ public class StreamController {
 
 	@PostMapping("register")
 	public ResponseEntity<Map<String, Object>> registerStream(StreamDTO streamDTO){
+		String chatroom_status = streamDTO.getChatroom_status();
+		int stream_id = streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class), chatroom_status);
+		streamDTO.setStream_id(stream_id);
+		
 		//방송 시작시 방송 정보를 map형태로 저장
 		globalVariables.getStreamInfo().put(streamDTO.getMember_id(), streamDTO);
-
-		String chatroom_status = streamDTO.getChatroom_status();
-		streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class), chatroom_status);
 
 		Map<String, Object> response = new HashMap<>();
 		response.put("message", "방송이 등록되었습니다.");

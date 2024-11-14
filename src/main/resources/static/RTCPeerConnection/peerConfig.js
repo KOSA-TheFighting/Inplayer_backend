@@ -477,7 +477,7 @@ function sendMessage() {
 
         const chatMessage = {
             type: '1002',
-            roomId: roomId,
+            roomId: roomId, //나중에 member_id로 바꿔야함
             sender: member_nickname,
             message: message,
             time: formattedTime
