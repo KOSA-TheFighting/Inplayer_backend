@@ -31,24 +31,26 @@ public class StreamService {
 	public PageResponseDTO<StreamDTO> getList(PageRequestDTO pageRequestDTO) {
 		List<StreamDTO> list;
 
-		if(pageRequestDTO.getSortBy() == "recommendation") {
+		if("recommendation".equals(pageRequestDTO.getSortBy())) {
 			//map을 인기순 정렬
-			List<Map.Entry<String, Integer>> sortedEntries = sortUtil.sortRoomIdsByUserCountDesc(globalVariables.getCheckRoomIdCount());
+			List<Map.Entry<String, Integer>> sortedEntries = sortUtil.sortRoomIdsByUserCountDesc(globalVariables.getCheckRoomIdCount(), pageRequestDTO);
 			Map<String, StreamDTO> streamInfo = globalVariables.getStreamInfo();
 
 			//정렬된 id순으로 방송목록 변환
 			list = convertToStreamDTOList(sortedEntries, streamInfo);
 
-		} else if(pageRequestDTO.getSortBy() == "newest") {
+		} else if("newest".equals(pageRequestDTO.getSortBy())) {
 
 			Map<String, StreamDTO> streamInfo = globalVariables.getStreamInfo();
 
 			//최신순으로 방송목록 정렬
-			list = streamInfo.values()
+			List<StreamDTO> sortedList = streamInfo.values()
 					.stream()
 					.sorted((s1, s2) -> s2.getStream_start_time().compareTo(s1.getStream_start_time()))
 					.collect(Collectors.toList());
-
+			
+			list = sortUtil.getPagedResult(sortedList, pageRequestDTO.getPage(), pageRequestDTO.getSize());
+			
 		} else {
 			list = null;
 			System.out.println("잘못된 정렬 요청입니다.");
@@ -56,7 +58,7 @@ public class StreamService {
 
 //		list = streamRepository.getList(pageRequestDTO);
 
-		return new PageResponseDTO<StreamDTO>(pageRequestDTO, list, streamRepository.getTotalCount(pageRequestDTO));
+		return new PageResponseDTO<StreamDTO>(pageRequestDTO, list, globalVariables.getStreamInfo().size());
 	}
 
 	@Transactional
