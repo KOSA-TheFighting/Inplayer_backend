@@ -17,5 +17,6 @@ public class PageResponseDTO<E> {
 		this.page  = pageRequestDTO.getPage();
 		this.size  = pageRequestDTO.getSize();
 		this.list  = list;
+		this.total = totalCount;
 	}
 }

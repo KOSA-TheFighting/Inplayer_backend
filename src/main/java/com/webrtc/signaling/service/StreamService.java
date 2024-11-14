@@ -1,8 +1,9 @@
 package com.webrtc.signaling.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,31 +29,32 @@ public class StreamService {
 	private final SortUtil sortUtil;
 
 	public PageResponseDTO<StreamDTO> getList(PageRequestDTO pageRequestDTO) {
+		List<StreamDTO> list;
+
 		if(pageRequestDTO.getSortBy() == "recommendation") {
-			//인기순 정렬
-			sortUtil.sortRoomIdsByUserCountDesc(globalVariables.getCheckRoomIdCount());
-			//정렬된 id순으로 방송목록 가져오기 구현해야함
+			//map을 인기순 정렬
+			List<Map.Entry<String, Integer>> sortedEntries = sortUtil.sortRoomIdsByUserCountDesc(globalVariables.getCheckRoomIdCount());
+			Map<String, StreamDTO> streamInfo = globalVariables.getStreamInfo();
+
+			//정렬된 id순으로 방송목록 변환
+			list = convertToStreamDTOList(sortedEntries, streamInfo);
+
 		} else if(pageRequestDTO.getSortBy() == "newest") {
 
-			Map<String, String> roomStartTimeMap = new HashMap<>();
-			Map<String, StreamDTO> streamInfoMap = globalVariables.getStreamInfo();
-			
-			//StreamDTO에서 stream_start_time추출해서 roomStartTimeMap에 넣기
-			for (Map.Entry<String, StreamDTO> entry : streamInfoMap.entrySet()) {
-				String memberId = entry.getKey();
-				StreamDTO streamDTO = entry.getValue();
-				String stream_start_time = streamDTO.getStream_start_time();
-				roomStartTimeMap.put(memberId, stream_start_time);
-			}
+			Map<String, StreamDTO> streamInfo = globalVariables.getStreamInfo();
 
-			//최신순 정렬
-			sortUtil.sortRoomIdsByLatest(roomStartTimeMap);
-			//정렬된 id순으로 방송목록 가져오기 구현해야함
+			//최신순으로 방송목록 정렬
+			list = streamInfo.values()
+					.stream()
+					.sorted((s1, s2) -> s2.getStream_start_time().compareTo(s1.getStream_start_time()))
+					.collect(Collectors.toList());
+
 		} else {
+			list = null;
 			System.out.println("잘못된 정렬 요청입니다.");
 		}
 
-		List<StreamDTO> list = streamRepository.getList(pageRequestDTO);
+//		list = streamRepository.getList(pageRequestDTO);
 
 		return new PageResponseDTO<StreamDTO>(pageRequestDTO, list, streamRepository.getTotalCount(pageRequestDTO));
 	}
@@ -72,5 +74,28 @@ public class StreamService {
 		System.out.println("채팅방VO: " + chatRoomVO);
 
 		return stream_id;
+	}
+
+	// Map.Entry 리스트를 StreamDTO 리스트로 변환하는 메서드
+	private List<StreamDTO> convertToStreamDTOList(List<Map.Entry<String, Integer>> sortedEntries, 
+			Map<String, StreamDTO> streamInfo) {
+		return sortedEntries.stream()
+				.map(entry -> {
+					String roomId = entry.getKey();
+					Integer viewerCount = entry.getValue();
+
+					// streamInfo에서 해당 roomId를 가진 StreamDTO를 찾아서 반환
+					return streamInfo.values()
+							.stream()
+							.filter(dto -> dto.getMember_id().equals(roomId))
+							.map(dto -> {
+								dto.setStream_realtime_viewer_count(viewerCount);
+								return dto;
+							})
+							.findFirst()
+							.orElse(null);
+				})
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
 	}
 }
