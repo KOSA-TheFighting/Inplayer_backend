@@ -9,6 +9,7 @@ public class StreamDTO {
 	
 	private int    stream_id;
 	private String streamtag_num;
+	private String streamtag_name;
 	private String stream_title;
 	private String stream_description;
 	private String stream_start_time;
