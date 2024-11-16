@@ -14,9 +14,10 @@ public class PageResponseDTO<E> {
 	private List<E> list;
 	
 	public PageResponseDTO(PageRequestDTO pageRequestDTO, List<E> list, int totalCount) {
-		this.page  = pageRequestDTO.getPage();
-		this.size  = pageRequestDTO.getSize();
-		this.list  = list;
-		this.total = totalCount;
+		this.page   = pageRequestDTO.getPage();
+		this.size   = pageRequestDTO.getSize();
+		this.sortBy = pageRequestDTO.getSortBy();
+		this.list   = list;
+		this.total  = totalCount;
 	}
 }
