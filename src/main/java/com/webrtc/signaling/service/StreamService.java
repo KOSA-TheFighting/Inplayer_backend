@@ -49,6 +49,7 @@ public class StreamService {
 					.sorted((s1, s2) -> s2.getStream_start_time().compareTo(s1.getStream_start_time()))
 					.collect(Collectors.toList());
 			
+			System.out.println("방송 시작시간 최신순 정렬: " + sortedList);
 			list = sortUtil.getPagedResult(sortedList, pageRequestDTO.getPage(), pageRequestDTO.getSize());
 			
 		} else {

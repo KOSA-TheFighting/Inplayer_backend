@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webrtc.member.repository.MemberRepository">
+
+	<select id="getInfo" resultType="com.webrtc.member.model.dto.MemberDTO">
+	
+        SELECT *,
+            (
+                SELECT COUNT(*)
+                FROM follow f
+                WHERE f.followed_member_id = m.member_id
+            ) AS followerNum
+        FROM member m
+        WHERE m.member_id = #{member_id}
+        AND m.member_delete_yn = 0
+    </select>
+
+</mapper>
