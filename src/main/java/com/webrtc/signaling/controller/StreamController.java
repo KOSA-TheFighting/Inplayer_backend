@@ -50,7 +50,6 @@ public class StreamController {
 			streamDTO.setStream_description("description" + i);
 			
 			streamDTO.setStream_start_time(sampleData.getDateTime().get(i-1));
-
 			streamDTO.setStream_status("live");
 
 			streamDTO.setStream_view_count(0);
@@ -70,10 +69,11 @@ public class StreamController {
 
 		return ResponseEntity.ok(response);
 	}
-
+	
 	@PostMapping("register")
 	public ResponseEntity<Map<String, Object>> registerStream(StreamDTO streamDTO){
 		String chatroom_status = streamDTO.getChatroom_status();
+		//방송 정보 DB에 저장
 		int stream_id = streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class), chatroom_status);
 		streamDTO.setStream_id(stream_id);
 
@@ -81,7 +81,7 @@ public class StreamController {
 		globalVariables.getStreamInfo().put(streamDTO.getMember_id(), streamDTO);
 
 		Map<String, Object> response = new HashMap<>();
-		response.put("message", "방송이 등록되었습니다.");
+		response.put("stream_id", stream_id);
 		response.put("status", "success");
 		System.out.println("방송 등록 응답 목록: " + response);
 
