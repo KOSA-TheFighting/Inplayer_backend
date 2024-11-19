@@ -57,8 +57,6 @@ public class StreamService {
 			System.out.println("잘못된 정렬 요청입니다.");
 		}
 
-//		list = streamRepository.getList(pageRequestDTO);
-
 		return new PageResponseDTO<StreamDTO>(pageRequestDTO, list, globalVariables.getStreamInfo().size());
 	}
 

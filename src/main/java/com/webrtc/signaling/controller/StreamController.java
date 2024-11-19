@@ -32,7 +32,7 @@ public class StreamController {
 	private final StreamService streamService;
 	//샘플데이터용
 	private final SampleData sampleData;
-	
+
 	@GetMapping("list")
 	public ResponseEntity<Map<String, Object>> getStreamList(PageRequestDTO pageRequestDTO) {
 		System.out.println("방송목록 요청 목록: " + pageRequestDTO);
@@ -44,11 +44,37 @@ public class StreamController {
 			streamDTO.setMember_nickname("nickname" + i);
 
 			streamDTO.setStream_id(i);
-			streamDTO.setStreamtag_num("2000");
-			streamDTO.setStreamtag_name("talk");
+
+			switch ((i - 1) % 6) {
+			case 0:
+				streamDTO.setStreamtag_num("2000");
+				streamDTO.setStreamtag_name("talk");
+				break;
+			case 1:
+				streamDTO.setStreamtag_num("2001");
+				streamDTO.setStreamtag_name("study");
+				break;
+			case 2:
+				streamDTO.setStreamtag_num("2002");
+				streamDTO.setStreamtag_name("music");
+				break;
+			case 3:
+				streamDTO.setStreamtag_num("2003");
+				streamDTO.setStreamtag_name("art");
+				break;
+			case 4:
+				streamDTO.setStreamtag_num("2004");
+				streamDTO.setStreamtag_name("game");
+				break;
+			case 5:
+				streamDTO.setStreamtag_num("2005");
+				streamDTO.setStreamtag_name("etc");
+				break;
+			}
+
 			streamDTO.setStream_title("title" + i);
 			streamDTO.setStream_description("description" + i);
-			
+
 			streamDTO.setStream_start_time(sampleData.getDateTime().get(i-1));
 			streamDTO.setStream_status("live");
 
@@ -69,7 +95,7 @@ public class StreamController {
 
 		return ResponseEntity.ok(response);
 	}
-	
+
 	@PostMapping("register")
 	public ResponseEntity<Map<String, Object>> registerStream(StreamDTO streamDTO){
 		String chatroom_status = streamDTO.getChatroom_status();

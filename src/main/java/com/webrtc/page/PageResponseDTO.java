@@ -9,6 +9,7 @@ public class PageResponseDTO<E> {
 	private int    page;
 	private int    size = 10;
 	private String sortBy;
+	private String search;
 	private int    total;
 	
 	private List<E> list;
@@ -17,6 +18,7 @@ public class PageResponseDTO<E> {
 		this.page   = pageRequestDTO.getPage();
 		this.size   = pageRequestDTO.getSize();
 		this.sortBy = pageRequestDTO.getSortBy();
+		this.search = pageRequestDTO.getSearch();
 		this.list   = list;
 		this.total  = totalCount;
 	}
