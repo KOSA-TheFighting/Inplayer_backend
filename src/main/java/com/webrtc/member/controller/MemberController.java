@@ -18,21 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/member")
-public class MemberController {
-	private final MemberService memberService;
-	
-//	@GetMapping("/auth/kakao/login")
-//	public ResponseEntity<String> kakaoLogin() throws IOException {
-//		String kakaoAuthUrl = String.format(kakaoHttp, kakaoAppKey, // 카카오 앱 키
-//				URLEncoder.encode(kakaoCallback, "UTF-8"));
-//		return ResponseEntity.status(HttpStatus.TEMPORARY_REDIRECT).header("Access-Control-Expose-Headers", "Location")
-//				.header("Location", kakaoAuthUrl).build();
-//	}
+public class MemberController {	private final MemberService memberService;
 
 	@GetMapping("getInfo/{member_id}")
 	public ResponseEntity<MemberDTO> getMemberInfo(@PathVariable String member_id) {
 	    Optional<MemberDTO> response = memberService.getInfo(member_id);
-	    
+
 	    if (response.isPresent()) {
 	    	System.out.println("멤버 정보 응답:" + response.get());
 	        return ResponseEntity.ok(response.get());
