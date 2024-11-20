@@ -4,7 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@MapperScan({"com.webrtc.signaling.repository", "com.webrtc.member.repository"})
+@MapperScan({"com.webrtc.signaling.repository", "com.webrtc.member.dao"})
 @SpringBootApplication(scanBasePackages = {"com.webrtc"})
 public class SignalingApplication {
 

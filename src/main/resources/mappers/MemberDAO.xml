@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webrtc.member.dao.MemberDAO">
+
+    <!-- 이메일로 회원 조회 -->
+    <select id="findByEmail" resultType="com.webrtc.member.model.dto.MemberDTO">
+        SELECT * FROM member
+        WHERE member_email = #{member_email}
+    </select>
+
+    <!--
+    <insert id="insertMember" >
+        <selectKey order="AFTER" keyProperty="id" resultType="long">
+            select LAST_INSERT_ID() member_id
+        </selectKey>
+
+
+        insert into member (
+        member_id
+        ,member_name
+        ,member_nickname
+        ,member_email
+        ,member_created_date
+        ,member_delete_yn
+        ,member_last_login
+        ,member_last_logout
+        ) values (
+        #{member_id},
+        #{member_name},
+        #{member_nickname},
+        #{member_email},
+        #{member_created_date},
+        #{member_delete_yn},
+        #{member_last_login},
+        #{member_last_logout}
+        )
+    </insert>
+-->
+
+    <!-- 회원 가입 처리 -->
+    <insert id="saveMember" parameterType="com.webrtc.member.model.dto.MemberDTO">
+        INSERT INTO member (member_id, member_name, member_nickname, member_email, member_created_date, member_delete_yn, member_last_login, member_last_logout)
+        VALUES (#{member_id}, #{member_name}, #{member_nickname}, #{member_email}, #{member_created_date}, #{member_delete_yn}, #{member_last_login}, #{member_last_logout})
+    </insert>
+
+</mapper>
