@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.webrtc.page.PageRequestDTO;
 import com.webrtc.page.PageResponseDTO;
@@ -48,13 +49,20 @@ public class StreamService {
 					.stream()
 					.sorted((s1, s2) -> s2.getStream_start_time().compareTo(s1.getStream_start_time()))
 					.collect(Collectors.toList());
-			
+
 			System.out.println("방송 시작시간 최신순 정렬: " + sortedList);
 			list = sortUtil.getPagedResult(sortedList, pageRequestDTO.getPage(), pageRequestDTO.getSize());
-			
+
 		} else {
 			list = null;
 			System.out.println("잘못된 정렬 요청입니다.");
+		}
+
+		if(StringUtils.hasText(pageRequestDTO.getSearch())) {
+			list = list.stream()
+					.filter(stream -> stream.getStream_title().toLowerCase()
+							.contains(pageRequestDTO.getSearch().toLowerCase()))
+					.collect(Collectors.toList());
 		}
 
 		return new PageResponseDTO<StreamDTO>(pageRequestDTO, list, globalVariables.getStreamInfo().size());
