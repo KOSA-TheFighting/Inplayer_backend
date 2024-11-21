@@ -14,16 +14,15 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable() // CSRF 보호 비활성화
-                .authorizeRequests()
-                .requestMatchers("/api/**").permitAll() // 로그인 관련 URL은 인증 없이 접근 허용
-                .requestMatchers("/public/**").permitAll() // 공개 URL은 인증 없이 접근 허용
-                .anyRequest().authenticated() // 나머지 요청은 인증이 필요
-                .and()
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	http
+                .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
+                .authorizeRequests(requests -> requests
+                        .requestMatchers("/api/**").permitAll() // 로그인 관련 URL은 인증 없이 접근 허용
+                        .requestMatchers("/public/**").permitAll() // 공개 URL은 인증 없이 접근 허용
+                        .anyRequest().authenticated());
 //                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // JWT 인증 필터 추가
-                .formLogin(); // 폼 로그인 설정
+//                .formLogin(withDefaults()); // 폼 로그인 설정
 
         return http.build();
     }

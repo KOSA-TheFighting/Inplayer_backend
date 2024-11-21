@@ -6,10 +6,6 @@ import org.springframework.stereotype.Service;
 import com.webrtc.member.repository.MemberRepository;
 import com.webrtc.member.model.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-
-
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
