@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class KakaoOAuth2Util {
 
-    private static final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
-    private static final String USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
+//    private static final String TOKEN_URL = "https://kauth.kakao.com/oauth/token";
+//    private static final String USER_INFO_URL = "https://kapi.kakao.com/v2/user/me";
 
     public String requestAccessToken(String code, String redirectUri) {
         try {
