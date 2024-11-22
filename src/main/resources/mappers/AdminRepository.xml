@@ -1,10 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.webrtc.member.repository.AdminRepository">
+
+    <!-- 회원 탈퇴 처리 -->
+    <update id="deactivateMember">
+        UPDATE member
+        SET member_delete_yn = 1
+        WHERE member_id = #{member_id};
+    </update>
+
+    <!-- 모든 회원 정보 조회 -->
+    <select id="findAllMembers" resultType="com.webrtc.member.model.dto.MemberDTO">
+        SELECT *
+        FROM member
+        WHERE member_delete_yn = 0;  <!-- 탈퇴하지 않은 활성 회원만 조회 -->
+    </select>
+
+    <!-- 특정 회원 정보 조회 -->
+    <select id="findMemberById" resultType="com.webrtc.member.model.dto.MemberDTO">
+        SELECT m.*,
+               (
+                   SELECT COUNT(*)
+                   FROM follow f
+                   WHERE f.followed_member_id = m.member_id
+               ) AS followerNum
+        FROM member m
+        WHERE m.member_id = #{member_id}
+          AND m.member_delete_yn = 0;
+    </select>
+
+
+</mapper>
