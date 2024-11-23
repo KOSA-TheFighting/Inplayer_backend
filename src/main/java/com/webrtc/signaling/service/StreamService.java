@@ -71,13 +71,15 @@ public class StreamService {
 	@Transactional
 	public int registerStream(StreamVO streamVO, String chatroom_status) {
 		//DB에 스트림 정보 등록
-		final int stream_id = streamRepository.registerStream(streamVO);
+		streamRepository.registerStream(streamVO);
+		final int stream_id = streamVO.getStream_id();
 
 		//DB에 채팅방 정보 등록
 		ChatRoomVO chatRoomVO = new ChatRoomVO();
 		chatRoomVO.setStream_id(stream_id);
 		chatRoomVO.setChatroom_status(chatroom_status);
-		final int chatroom_id = streamRepository.registerChatRoom(chatRoomVO);
+		streamRepository.registerChatRoom(chatRoomVO);
+		final int chatroom_id = chatRoomVO.getChatroom_id();
 
 		System.out.println("채팅방ID: " + chatroom_id);
 		System.out.println("채팅방VO: " + chatRoomVO);

@@ -21,6 +21,7 @@ import java.util.Map;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @RestController
@@ -97,7 +98,9 @@ public class StreamController {
 	}
 
 	@PostMapping("register")
-	public ResponseEntity<Map<String, Object>> registerStream(StreamDTO streamDTO){
+	public ResponseEntity<Map<String, Object>> registerStream(@RequestBody StreamDTO streamDTO){
+		System.out.println("프론트에서 넘어온 데이터: " + streamDTO);
+		
 		String chatroom_status = streamDTO.getChatroom_status();
 		//방송 정보 DB에 저장
 		int stream_id = streamService.registerStream(mapperUtil.map(streamDTO, StreamVO.class), chatroom_status);
