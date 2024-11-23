@@ -42,5 +42,4 @@ public class AdminController {
 		Optional<MemberDTO> member = adminService.getMemberById(member_id);
 		return member.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
-
 }
