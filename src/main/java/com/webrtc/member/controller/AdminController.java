@@ -34,7 +34,7 @@ public class AdminController {
         List<MemberDTO> members = adminService.getAllMembers();
         System.out.println("전체 회원 목록: " + members);
         return ResponseEntity.ok(members);
-
+    }
 
     // 특정 회원 정보 조회
     @GetMapping("/member/{member_id}")
