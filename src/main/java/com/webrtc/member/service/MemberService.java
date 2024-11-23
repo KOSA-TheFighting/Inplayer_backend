@@ -14,7 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MemberService {
 
 	private final MemberRepository memberRepository;// MyBatis Mapper를 주입받음
-	
+
 	public Optional<MemberDTO> getInfo(String member_id) {
 		Optional<MemberDTO> memberDTO = memberRepository.getInfo(member_id);
 		System.out.println("멤버요청: " + member_id);
@@ -34,5 +34,10 @@ public class MemberService {
 		// 회원 정보를 MyBatis를 통해 저장
 		memberRepository.saveMember(memberDTO);  // MyBatis를 사용하여 DB에 저장
 	}
+
+	public void updateNickname(String member_id, String newNickname) {
+		memberRepository.updateNickname(member_id, newNickname);
+	}
+
 
 }
