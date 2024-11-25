@@ -20,6 +20,7 @@ public class SecurityConfig {
                 .authorizeRequests(requests -> requests
                         .requestMatchers("/api/**").permitAll() // 로그인 관련 URL은 인증 없이 접근 허용
                         .requestMatchers("/public/**").permitAll() // 공개 URL은 인증 없이 접근 허용
+                        .requestMatchers("/signaling/**").permitAll()
                         .anyRequest().authenticated());
 //                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class) // JWT 인증 필터 추가
 //                .formLogin(withDefaults()); // 폼 로그인 설정

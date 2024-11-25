@@ -49,6 +49,7 @@ public class ChatMessageService {
                 .collect(Collectors.toList());
 
             // MariaDB에 저장
+            System.out.println("레디스 메시지: " + entities);
             int rows = chatMessageRepository.saveMessage(entities);
             System.out.println("DB에 저장된 채팅 메시지수: " + rows);
             
