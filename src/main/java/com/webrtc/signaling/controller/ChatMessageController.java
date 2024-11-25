@@ -16,7 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ChatMessageController {
 	private final ChatMessageService chatMessageService;
-
+	
 	@MessageMapping("/chat/{roomId}")
 	@SendTo("/topic/chat/{roomId}")
 	public ChatMessageDTO sendMessage(@DestinationVariable String roomId, ChatMessageDTO message) {
