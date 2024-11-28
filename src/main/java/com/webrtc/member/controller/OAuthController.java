@@ -83,7 +83,7 @@ public class OAuthController {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "authorization_code");
 		params.add("client_id", "1f41a5343db15932a5f2d5c4e5c81222");
-		params.add("redirect_uri", "http://localhost:5173/oauth/kakao");
+		params.add("redirect_uri", "http://192.168.230.7:5173/oauth/kakao");
 		params.add("code", code);
 
 		// HttpHeader와 HttpBody를 하나의 오브젝트에 담기

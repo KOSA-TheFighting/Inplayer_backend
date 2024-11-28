@@ -81,7 +81,7 @@ public class StreamController {
 
 			streamDTO.setStream_view_count(0);
 			streamDTO.setChatroom_status("active");
-			streamDTO.setStream_realtime_viewer_count(i*10);
+			streamDTO.setStream_realtime_viewer_count((int)(Math.random() * (1232)) + 2);
 			globalVariables.getStreamInfo().put("member" + i, streamDTO);
 			globalVariables.getCheckRoomIdCount().put(streamDTO.getMember_id(), streamDTO.getStream_realtime_viewer_count());
 		}
