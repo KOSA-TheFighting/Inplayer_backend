@@ -39,6 +39,7 @@ public class WebSocketEventListener {
         if(globalVariables.getCheckRoomIdCount().containsKey(roomId)){
             //있다면 유저수를 +1 해준다.
             globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId) +1);
+            //globalVariables.getStreamInfo().get(camKey).setStream_realtime_viewer_count(globalVariables.getCheckRoomIdCount().get(roomId));
         }
         else{
             //아니면 1로 추가해준다.
@@ -54,6 +55,7 @@ public class WebSocketEventListener {
         log.info("\n웹소켓 접속 : " + sessionId + "\n"
                 + "룸 ID : " + roomId + "\n"
                 + "룸 인원 : " + globalVariables.getCheckRoomIdCount().get(roomId));
+        
         System.out.println("연결시 " + globalVariables);
     }
 
@@ -63,22 +65,26 @@ public class WebSocketEventListener {
         String sessionId = headerAccessor.getSessionId();
 
         String roomId = globalVariables.getCheckRoomId().get(sessionId);
+        //String camkey = globalVariables.getCheckCamKey().get(sessionId);
 
         //전역 함수에서 checkRoomIdCount map 을 가져와 해당 룸이 있는지 확인
         if(globalVariables.getCheckRoomIdCount().containsKey(roomId)){
             if(globalVariables.getCheckRoomIdCount().get(roomId) - 1 <= 0){
                 //만약 해당 roomId의 유저가 0 이하라면 삭제한다.
                 globalVariables.getCheckRoomIdCount().remove(roomId);
+                //globalVariables.getStreamInfo().remove(camkey);
             }
             else{
                 //아니면 해당 roomId의 유저를 -1 해준다.
                 globalVariables.getCheckRoomIdCount().put(roomId, globalVariables.getCheckRoomIdCount().get(roomId) -1);
+                //globalVariables.getStreamInfo().get(camkey).setStream_realtime_viewer_count(globalVariables.getCheckRoomIdCount().get(roomId));
             }
         }
         
         log.info("\n웹소켓 끊김 : "+sessionId+"\n"
                 +"룸 ID : "+roomId + "\n"
                 +"룸 인원 : "+ globalVariables.getCheckRoomIdCount().get(roomId) );
+        
         System.out.println("해제시 " + globalVariables);
     }
 
